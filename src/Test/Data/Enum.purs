@@ -34,6 +34,10 @@ instance enumTestEnum :: Enum TestEnum where
   pred B = Just A
   pred C = Just B
 
+  toEnum x = defaultToEnum succ firstEnum x
+
+  fromEnum x = defaultFromEnum pred x
+
 main = do
 
   let ty = Just 0
@@ -51,6 +55,20 @@ main = do
   
   trace "pred should return nothing for the first enum value in a sequence"
   assert $ pred A == Nothing
+
+  trace "toEnum should return the first element for 0"
+  assert $ toEnum 0 == Just A
+
+  trace "toEnum should return the last element for 2"
+  assert $ toEnum 2 == Just C
+
+  trace "toEnum should return nothing for an out of range value"
+  assert $ toEnum 3 == Nothing :: Maybe TestEnum
+  assert $ toEnum (-1) == Nothing  :: Maybe TestEnum
+
+  trace "fromEnum should return the corresponding ordinal"
+  assert $ fromEnum A == 0
+  assert $ fromEnum C == 2  
 
 
 assert :: Boolean -> QC Unit

@@ -14,9 +14,6 @@ import Test.Classes
 double :: Number -> Number
 double x = x * 2
 
-one :: forall a. a -> Number
-one _ = 1
-
 doubleAndOrig :: Number -> [Number]
 doubleAndOrig x = [x * 2, x]
 
@@ -95,7 +92,7 @@ main = do
   assert $ mapMaybe (\x -> if x % 2 == 0 then Just x else Nothing) [0, 1, 2, 3, 4, 5] == [0, 2, 4]
 
   trace "length should return the number of items in an array"
-  checkA1 $ \xs -> length xs == sum (map one xs)
+  checkA1 $ \xs -> length xs == sum (map (const 1) xs)
 
   trace "elemIndex should return the index of an item in an array"
   assert $ (elemIndex 1 [1, 2, 1]) == 0
